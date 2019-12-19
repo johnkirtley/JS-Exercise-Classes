@@ -47,10 +47,10 @@ class Person {
     this.stomach = [];
   }
   eat(someFood) {
-    if (this.stomach.length === 10) {
+    if (this.stomach.length >= 10) {
       return this.stomach;
-    } else if (someFood) {
-      this.stomach.push(someFood);
+    } else {
+      return this.stomach.push(someFood);
     }
   }
 
@@ -77,6 +77,7 @@ class Person {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
+
 class Car {
   constructor(model, milesPerGallon) {
     this.model = model;
@@ -90,8 +91,21 @@ class Car {
   }
 
   drive(distance) {
-    return this.odometer += distance;
+    let gas = distance / this.milesPerGallon;
+
+    if (gas >= 0) {
+      this.odometer += distance;
+      this.tank -= gas;
+    }
+
+    if (distance > this.tank * this.milesPerGallon) {
+      this.odometer += this.tank * this.milesPerGallon;
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`
+    }
   }
+
+
 }
 
 /*
@@ -121,6 +135,11 @@ class Lambdasian {
   speak() {
     return `Hello my name is ${this.name}, I am from ${this.location}`;
   }
+
+  getGrade(score) {
+    return score - (Math.random() * 10);
+  }
+
 }
 
 /*
@@ -177,7 +196,8 @@ class Student extends Lambdasian {
     super(Obj);
     this.previousBackground = Obj.previousBackground,
       this.className = Obj.className,
-      this.favSubjects = Obj.favSubjects
+      this.favSubjects = Obj.favSubjects,
+      this.score = 90
   }
   listSubjects() {
     return `Loving ${this.favSubjects}`;
@@ -188,7 +208,18 @@ class Student extends Lambdasian {
   sprintChallenge(subject) {
     return `${this.name} has begun sprint challenge on ${subject}`;
   }
+
 }
+
+const student1 = new Student({
+  name: 'john',
+  age: 25,
+  location: 'las vegas',
+  previousBackground: 'finance',
+  favSubject: 'code'
+})
+console.log(student1.speak());
+
 
 /*
   TASK 6
